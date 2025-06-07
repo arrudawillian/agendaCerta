@@ -1,0 +1,44 @@
+@AgendaCerta_HostAddress = http://localhost:5135
+
+### Listar todos os clientes
+GET {{AgendaCerta_HostAddress}}/api/cliente
+
+### Buscar cliente por ID
+GET {{AgendaCerta_HostAddress}}/api/cliente/3
+
+### Buscar cliente por Cpf
+GET {{AgendaCerta_HostAddress}}/api/cliente/cpf/123
+
+### Buscar cliente por Email
+GET {{AgendaCerta_HostAddress}}/api/cliente/email/Renata@com
+
+### Criar novo cliente
+POST {{AgendaCerta_HostAddress}}/api/cliente
+Content-Type: application/json
+
+{
+    "nome": "Renata Silva",
+    "email": "Renata@email.com",
+    "cpf": "33322255546",
+    "telefone": "11999999999",
+    "DataNascimento": "1999-11-27"
+}
+
+### Atualizar cliente
+PUT {{AgendaCerta_HostAddress}}/api/cliente/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "nome": "João Silva Atualizado",
+    "email": "joao.atualizado@email.com",
+    "cpf": "12345678901",
+    "telefone": "11999999999",
+    "DataNascimento": "1999-01-01"
+}
+
+### Deletar cliente
+DELETE {{AgendaCerta_HostAddress}}/api/cliente/1
+Accept: application/json
+
+###

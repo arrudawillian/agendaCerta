@@ -5,16 +5,15 @@ namespace AgendaCerta.Domain.Entities
 {
     public class Agendamento
     {
-        public Agendamento() { }
-
-        public Agendamento(int clienteId, int atendenteId, DateTime dataHora, string status)
+        public Agendamento()
         {
-            ClienteId = clienteId;
-            AtendenteId = atendenteId;
-            DataHora = dataHora;
-            Status = status;
+            ClienteId = 0;
+            AtendenteId = 0;
+            Status = string.Empty;
             DataCriacao = DateTime.Now;
             Observacao = string.Empty;
+            Cliente = new Cliente();
+            Atendente = new Atendente();
         }
 
         [Key]

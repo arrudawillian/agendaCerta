@@ -6,19 +6,16 @@ namespace AgendaCerta.Domain.Entities
     [Index(nameof(CPF), IsUnique = true)]
     public class Atendente
     {
-        public Atendente() { }
-
-        public Atendente(string nome, string email, string telefone, string cpf, DateTime dataNascimento, string especialidade)
+        public Atendente()
         {
-            Nome = nome;
-            Email = email;
-            Telefone = telefone;
-            CPF = cpf;
-            DataNascimento = dataNascimento;
-            Especialidade = especialidade;
+            Nome = string.Empty;
+            Email = string.Empty;
+            Telefone = string.Empty;
+            CPF = string.Empty;
+            Especialidade = string.Empty;
             DataContratacao = DateTime.Now;
             Ativo = true;
-            Agendamentos = new List<Agendamento>();
+            Agendamentos = [];
         }
 
         [Key]

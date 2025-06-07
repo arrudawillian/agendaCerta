@@ -6,18 +6,15 @@ namespace AgendaCerta.Domain.Entities
     [Index(nameof(Cpf), IsUnique = true)]
     public class Cliente
     {
-        public Cliente() { }
-
-        public Cliente(string nome, string email, string telefone, string cpf, DateTime dataNascimento)
+        public Cliente()
         {
-            Nome = nome;
-            Email = email;
-            Telefone = telefone;
-            Cpf = cpf;
-            DataNascimento = dataNascimento;
+            Nome = string.Empty;
+            Email = string.Empty;
+            Telefone = string.Empty;
+            Cpf = string.Empty;
             DataCadastro = DateTime.Now;
             Ativo = true;
-            Agendamentos = new List<Agendamento>();
+            Agendamentos = [];
         }
 
         [Key]

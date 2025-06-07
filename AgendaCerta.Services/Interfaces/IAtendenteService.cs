@@ -1,4 +1,5 @@
 using AgendaCerta.Domain.Entities;
+using AgendaCerta.Services.DTOs;
 
 namespace AgendaCerta.Services.Interfaces
 {
@@ -9,8 +10,8 @@ namespace AgendaCerta.Services.Interfaces
         Task<Atendente?> GetByEmailAsync(string email);
         Task<Atendente?> GetByCPFAsync(string cpf);
         Task<IEnumerable<Atendente?>> GetByEspecialidadeAsync(string especialidade);
-        Task<Atendente> CreateAsync(Atendente atendente);
-        Task<Atendente> UpdateAsync(Atendente atendente);
+        Task<Atendente> CreateAsync(CreateAtendenteDto createAtendenteDto);
+        Task<Atendente> UpdateAsync(int id, CreateAtendenteDto createAtendenteDto);
         Task<bool> DeleteAsync(int id);
     }
 }

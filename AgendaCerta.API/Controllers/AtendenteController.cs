@@ -1,4 +1,5 @@
 using AgendaCerta.Domain.Entities;
+using AgendaCerta.Services.DTOs;
 using AgendaCerta.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,20 +33,43 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Atendente>> Create([FromBody] Atendente atendente)
+        public async Task<ActionResult<Atendente>> Create([FromBody] CreateAtendenteDto createAtendenteDto)
         {
-            var createdAtendente = await _atendenteService.CreateAsync(atendente);
-            return CreatedAtAction(nameof(GetById), new { id = createdAtendente.Id }, createdAtendente);
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+
+                var result = await _atendenteService.CreateAsync(createAtendenteDto);
+                return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Ocorreu um erro ao criar o atendente. ex: {ex.Message}" });
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Atendente atendente)
+        public async Task<IActionResult> Update(int id, [FromBody] CreateAtendenteDto createAtendenteDto)
         {
-            if (id != atendente.Id)
-                return BadRequest();
+            try
+            {
+                if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _atendenteService.UpdateAsync(atendente);
-            return NoContent();
+                var result = await _atendenteService.UpdateAsync(id, createAtendenteDto);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Ocorreu um erro ao atualizar o atendente. ex:{ex.Message}" });
+            }
         }
 
         [HttpDelete("{id}")]

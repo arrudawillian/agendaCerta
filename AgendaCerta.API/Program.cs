@@ -28,7 +28,6 @@ builder.Services.AddScoped<IAgendamentoRepository, AgendamentoRepository>();
 // Services
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IAtendenteService, AtendenteService>();
-builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<IAgendamentoService, AgendamentoService>();
 
 var app = builder.Build();

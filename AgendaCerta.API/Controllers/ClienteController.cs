@@ -69,7 +69,7 @@ namespace AgendaCerta.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { message = $"Ocorreu um erro ao criar o cliente. ex:{ex.Message}" });
+                return StatusCode(500, new { message = $"Ocorreu um erro ao criar o cliente. ex: {ex.Message}" });
             }
         }
 

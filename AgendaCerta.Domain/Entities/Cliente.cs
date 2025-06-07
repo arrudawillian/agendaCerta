@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AgendaCerta.Domain.Entities
 {
-    [Index(nameof(Cpf), IsUnique = true)]
+    [Index(nameof(CPF), IsUnique = true)]
     public class Cliente
     {
         public Cliente()
@@ -11,7 +11,7 @@ namespace AgendaCerta.Domain.Entities
             Nome = string.Empty;
             Email = string.Empty;
             Telefone = string.Empty;
-            Cpf = string.Empty;
+            CPF = string.Empty;
             DataCadastro = DateTime.Now;
             Ativo = true;
             Agendamentos = [];
@@ -36,7 +36,7 @@ namespace AgendaCerta.Domain.Entities
 
         [Required(ErrorMessage = "O CPF é obrigatório")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve ter 11 dígitos")]
-        public string Cpf { get; set; }
+        public string CPF { get; set; }
 
         [Required(ErrorMessage = "A data de nascimento é obrigatória")]
         public DateTime DataNascimento { get; set; }

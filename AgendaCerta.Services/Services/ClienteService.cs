@@ -9,13 +9,11 @@ namespace AgendaCerta.Services
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _clienteRepository;
-        private readonly IValidationService _validationService;
         private readonly IMapper _mapper;
 
-        public ClienteService(IClienteRepository clienteRepository, IValidationService validationService, IMapper mapper)
+        public ClienteService(IClienteRepository clienteRepository, IMapper mapper)
         {
             _clienteRepository = clienteRepository;
-            _validationService = validationService;
             _mapper = mapper;
         }
 
@@ -42,7 +40,7 @@ namespace AgendaCerta.Services
         public async Task<Cliente> CreateAsync(CreateClienteDto clienteDto)
         {
             // Valida CPF único
-            if (!await _validationService.IsCPFUniqueAsync(clienteDto.Cpf))
+            if (!await IsCPFUniqueAsync(clienteDto.CPF))
             {
                 throw new InvalidOperationException("Já existe um cliente cadastrado com este CPF.");
             }
@@ -60,7 +58,7 @@ namespace AgendaCerta.Services
             }
 
             // Verifica se o CPF foi alterado e se já existe
-            if (clienteDto.Cpf != cliente.Cpf && !await _validationService.IsCPFUniqueAsync(clienteDto.Cpf))
+            if (clienteDto.CPF != cliente.CPF && !await IsCPFUniqueAsync(clienteDto.CPF))
             {
                 throw new InvalidOperationException("Já existe um cliente cadastrado com este CPF.");
             }
@@ -79,6 +77,12 @@ namespace AgendaCerta.Services
 
             await _clienteRepository.DeleteAsync(cliente);
             return true;
+        }
+
+        private async Task<bool> IsCPFUniqueAsync(string cpf)
+        {
+            var cliente = await _clienteRepository.GetByCPFAsync(cpf);
+            return cliente == null;
         }
     }
 }

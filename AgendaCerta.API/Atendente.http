@@ -1,0 +1,36 @@
+@AgendaCerta_HostAddress = http://localhost:5135
+
+### Listar todos os atendentes
+GET {{AgendaCerta_HostAddress}}/api/atendente
+
+### Buscar atendente por ID
+GET {{AgendaCerta_HostAddress}}/api/atendente/1
+
+### Criar novo atendente
+POST {{AgendaCerta_HostAddress}}/api/atendente
+Content-Type: application/json
+
+{
+    "nome": "Fernanda teixeira",
+    "email": "fer@exemplo.com",
+    "telefone": "11999999999",
+    "cpf": "12345678905",
+    "especialidade": "Oftalmologia",
+    "DataNascimento": "1995-10-20"
+}
+
+### Atualizar atendente
+PUT {{AgendaCerta_HostAddress}}/api/atendente/1
+Content-Type: application/json
+
+{
+    "nome": "João Silva Atualizado",
+    "email": "joao.atualizado@exemplo.com",
+    "telefone": "11988888888",
+    "cpf": "12345678901",
+    "especialidade": "Oftalmologia",
+    "DataNascimento": "1995-10-20"
+}
+
+### Deletar atendente
+DELETE {{AgendaCerta_HostAddress}}/api/atendente/1

@@ -14,7 +14,7 @@ namespace AgendaCerta.Data.Repositories
 
         public async Task<Cliente?> GetByCPFAsync(string cpf)
         {
-            return await _dbSet.FirstOrDefaultAsync(c => c.Cpf == cpf);
+            return await _dbSet.FirstOrDefaultAsync(c => c.CPF == cpf);
         }
 
         public override async Task<Cliente?> GetByIdAsync(int id)

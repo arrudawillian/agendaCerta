@@ -11,7 +11,7 @@ namespace AgendaCerta.Services.DTOs
         [Required(ErrorMessage = "O CPF é obrigatório")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "O CPF deve ter 11 dígitos")]
         [RegularExpression(@"^\d{11}$", ErrorMessage = "O CPF deve conter apenas números")]
-        public required string Cpf { get; set; }
+        public required string CPF { get; set; }
 
         [Required(ErrorMessage = "O email é obrigatório")]
         [EmailAddress(ErrorMessage = "O email fornecido não é válido")]

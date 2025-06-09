@@ -12,8 +12,6 @@ namespace AgendaCerta.Domain.Entities
             Status = string.Empty;
             DataCriacao = DateTime.Now;
             Observacao = string.Empty;
-            Cliente = new Cliente();
-            Atendente = new Atendente();
         }
 
         [Key]

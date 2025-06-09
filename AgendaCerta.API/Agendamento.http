@@ -1,0 +1,48 @@
+@AgendaCerta_HostAddress = http://localhost:5135
+
+### Listar todos os agendamentos
+GET {{AgendaCerta_HostAddress}}/api/agendamento
+
+### Buscar agendamento por ID
+GET {{AgendaCerta_HostAddress}}/api/agendamento/1
+
+### Buscar agendamentos por cliente
+GET {{AgendaCerta_HostAddress}}/api/agendamento/cliente/1
+
+### Buscar agendamentos por atendente
+GET {{AgendaCerta_HostAddress}}/api/agendamento/atendente/1
+
+### Criar novo agendamento
+POST {{AgendaCerta_HostAddress}}/api/agendamento
+Content-Type: application/json
+
+{
+    "clienteId": 4,
+    "atendenteId": 5,
+    "dataHora": "2025-06-20T14:30:00",
+    "status": "Agendado",
+    "observacao": "Primeira consulta"
+}
+
+### Atualizar agendamento
+PUT {{AgendaCerta_HostAddress}}/api/agendamento/1
+Content-Type: application/json
+
+{
+    "clienteId": 4,
+    "atendenteId": 5,
+    "dataHora": "2024-03-20T15:00:00",
+    "status": "Reagendado",
+    "observacao": "Horário alterado a pedido do cliente"
+}
+
+### Cancelar agendamento
+PATCH {{AgendaCerta_HostAddress}}/api/agendamento/2/cancelar
+Content-Type: application/json
+
+{
+    "observacao": "Cancelado a pedido do cliente"
+}
+
+### Deletar agendamento
+DELETE {{AgendaCerta_HostAddress}}/api/agendamento/1

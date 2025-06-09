@@ -1,6 +1,7 @@
 using AgendaCerta.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using AgendaCerta.Services.Interfaces;
+using AgendaCerta.Services.DTOs;
 
 namespace AgendaCerta.API.Controllers
 {
@@ -53,9 +54,9 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Agendamento>> Create([FromBody] Agendamento agendamento)
+        public async Task<ActionResult<Agendamento>> Create([FromBody] CreateAgendamentoDto agendamentoDto)
         {
-            var createdAgendamento = await _agendamentoService.CreateAsync(agendamento);
+            var createdAgendamento = await _agendamentoService.CreateAsync(agendamentoDto);
             return CreatedAtAction(nameof(GetById), new { id = createdAgendamento.Id }, createdAgendamento);
         }
 

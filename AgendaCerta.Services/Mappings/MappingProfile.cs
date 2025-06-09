@@ -17,6 +17,9 @@ namespace AgendaCerta.Services
                 .ForMember(dest => dest.DataContratacao, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.Ativo, opt => opt.MapFrom(src => true))
                 .ForMember(dest => dest.Agendamentos, opt => opt.MapFrom(src => new List<Agendamento>()));
+
+            CreateMap<CreateAgendamentoDto, Agendamento>()
+                .ForMember(dest => dest.DataCriacao, opt => opt.MapFrom(src => DateTime.Now));
         }
     }
 }

@@ -1,0 +1,4 @@
+1 - Refatorar as Dtos
+2 - Deixar a parte de agendamentos funcional
+3 - criar MCP
+4 - Comandar a aplicação via Prompt

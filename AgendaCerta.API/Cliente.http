@@ -4,7 +4,7 @@
 GET {{AgendaCerta_HostAddress}}/api/cliente
 
 ### Buscar cliente por ID
-GET {{AgendaCerta_HostAddress}}/api/cliente/3
+GET {{AgendaCerta_HostAddress}}/api/cliente/4
 
 ### Buscar cliente por Cpf
 GET {{AgendaCerta_HostAddress}}/api/cliente/cpf/33322255546
@@ -17,11 +17,11 @@ POST {{AgendaCerta_HostAddress}}/api/cliente
 Content-Type: application/json
 
 {
-    "nome": "Renata Silva",
-    "email": "Renata@email.com",
-    "cpf": "33322255546",
-    "telefone": "11999999999",
-    "DataNascimento": "1999-11-27"
+    "nome": "Amicia Regina",
+    "email": "amire@email.com",
+    "cpf": "44444444444",
+    "telefone": "15999999999",
+    "DataNascimento": "2022-03-01"
 }
 
 ### Atualizar cliente
@@ -38,4 +38,4 @@ Content-Type: application/json
 }
 
 ### Deletar cliente
-DELETE {{AgendaCerta_HostAddress}}/api/cliente/1
+DELETE {{AgendaCerta_HostAddress}}/api/cliente/3

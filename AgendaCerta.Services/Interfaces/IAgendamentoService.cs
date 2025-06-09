@@ -1,4 +1,5 @@
 using AgendaCerta.Domain.Entities;
+using AgendaCerta.Services.DTOs;
 
 namespace AgendaCerta.Services.Interfaces
 {
@@ -10,7 +11,7 @@ namespace AgendaCerta.Services.Interfaces
         Task<IEnumerable<Agendamento>> GetByAtendenteIdAsync(int atendenteId);
         Task<IEnumerable<Agendamento>> GetByDataAsync(DateTime data);
         Task<IEnumerable<Agendamento>> GetByStatusAsync(string status);
-        Task<Agendamento> CreateAsync(Agendamento agendamento);
+        Task<Agendamento> CreateAsync(CreateAgendamentoDto agendamentoDto);
         Task<Agendamento> UpdateAsync(Agendamento agendamento);
         Task<bool> DeleteAsync(int id);
     }

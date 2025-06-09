@@ -1,16 +1,20 @@
 using AgendaCerta.Data.Repositories.Interfaces;
 using AgendaCerta.Domain.Entities;
+using AgendaCerta.Services.DTOs;
 using AgendaCerta.Services.Interfaces;
+using AutoMapper;
 
 namespace AgendaCerta.Services
 {
     public class AgendamentoService : IAgendamentoService
     {
         private readonly IAgendamentoRepository _agendamentoRepository;
+        private readonly IMapper _mapper;
 
-        public AgendamentoService(IAgendamentoRepository agendamentoRepository)
+        public AgendamentoService(IAgendamentoRepository agendamentoRepository, IMapper mapper)
         {
             _agendamentoRepository = agendamentoRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Agendamento>> GetAllAsync()
@@ -43,10 +47,12 @@ namespace AgendaCerta.Services
             return await _agendamentoRepository.GetByStatusAsync(status);
         }
 
-        public async Task<Agendamento> CreateAsync(Agendamento agendamento)
+        public async Task<Agendamento> CreateAsync(CreateAgendamentoDto agendamentoDto)
         {
-            if (!await IsHorarioDisponivelAsync(agendamento.AtendenteId, agendamento.DataHora))
+            if (!await IsHorarioDisponivelAsync(agendamentoDto.AtendenteId, agendamentoDto.DataHora))
                 throw new InvalidOperationException("Horário não disponível para este atendente");
+
+            var agendamento = _mapper.Map<Agendamento>(agendamentoDto);
 
             return await _agendamentoRepository.AddAsync(agendamento);
         }

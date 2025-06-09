@@ -11,12 +11,12 @@ POST {{AgendaCerta_HostAddress}}/api/atendente
 Content-Type: application/json
 
 {
-    "nome": "Fernanda teixeira",
-    "email": "fer@exemplo.com",
+    "nome": "Denis Cornedo",
+    "email": "deco@email.com",
     "telefone": "11999999999",
-    "cpf": "12345678905",
-    "especialidade": "Oftalmologia",
-    "DataNascimento": "1995-10-20"
+    "cpf": "34567890013",
+    "especialidade": "Pediatria",
+    "DataNascimento": "1979-01-12"
 }
 
 ### Atualizar atendente
@@ -33,4 +33,4 @@ Content-Type: application/json
 }
 
 ### Deletar atendente
-DELETE {{AgendaCerta_HostAddress}}/api/atendente/1
+DELETE {{AgendaCerta_HostAddress}}/api/atendente/3

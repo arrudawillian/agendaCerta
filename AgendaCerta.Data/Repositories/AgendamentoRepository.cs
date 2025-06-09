@@ -7,6 +7,13 @@ namespace AgendaCerta.Data.Repositories
 {
     public class AgendamentoRepository(AgendaCertaContext context) : BaseRepository<Agendamento>(context), IAgendamentoRepository
     {
+        public override async Task<IEnumerable<Agendamento>> GetAllAsync()
+        {
+            return await _dbSet
+                .Include(a => a.Cliente)
+                .Include(a => a.Atendente).ToListAsync();
+        }
+
         public async Task<IEnumerable<Agendamento>> GetByClienteIdAsync(int clienteId)
         {
             return await _dbSet

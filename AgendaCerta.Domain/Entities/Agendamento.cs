@@ -37,9 +37,9 @@ namespace AgendaCerta.Domain.Entities
         public DateTime? DataAtualizacao { get; set; }
 
         [ForeignKey("ClienteId")]
-        public Cliente Cliente { get; set; }
+        public Cliente? Cliente { get; set; }
 
         [ForeignKey("AtendenteId")]
-        public Atendente Atendente { get; set; }
+        public Atendente? Atendente { get; set; }
     }
 }

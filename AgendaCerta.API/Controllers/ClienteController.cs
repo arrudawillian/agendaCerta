@@ -8,26 +8,20 @@ namespace AgendaCerta.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ClienteController : ControllerBase
+    public class ClienteController(IClienteService clienteService, IMapper mapper) : ControllerBase
     {
-        private readonly IClienteService _clienteService;
-        private readonly IMapper _mapper;
-
-        public ClienteController(IClienteService clienteService, IMapper mapper)
-        {
-            _clienteService = clienteService;
-            _mapper = mapper;
-        }
+        private readonly IClienteService _clienteService = clienteService;
+        private readonly IMapper _mapper = mapper;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cliente>>> GetAll()
+        public async Task<ActionResult<IEnumerable<ClienteResponse>>> GetAll()
         {
             var clientes = await _clienteService.GetAllAsync();
             return Ok(clientes);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cliente>> GetById(int id)
+        public async Task<ActionResult<ClienteResponse>> GetById(int id)
         {
             var cliente = await _clienteService.GetByIdAsync(id);
             if (cliente == null)
@@ -36,7 +30,7 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpGet("cpf/{cpf}")]
-        public async Task<ActionResult<Cliente>> GetByCPF(string cpf)
+        public async Task<ActionResult<ClienteResponse>> GetByCPF(string cpf)
         {
             var cliente = await _clienteService.GetByCPFAsync(cpf);
             if (cliente == null)
@@ -45,7 +39,7 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpGet("email/{email}")]
-        public async Task<ActionResult<Cliente>> GetByEmail(string email)
+        public async Task<ActionResult<ClienteResponse>> GetByEmail(string email)
         {
             var cliente = await _clienteService.GetByEmailAsync(email);
             if (cliente == null)
@@ -54,13 +48,13 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Cliente>> Create([FromBody] CreateClienteDto clienteDto)
+        public async Task<ActionResult<ClienteResponse>> Create([FromBody] ClienteRequest clienteRequest)
         {
             try
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState);
 
-                var result = await _clienteService.CreateAsync(clienteDto);
+                var result = await _clienteService.CreateAsync(clienteRequest);
                 return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
             }
             catch (InvalidOperationException ex)
@@ -74,13 +68,13 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<Cliente>> Update(int id, [FromBody] CreateClienteDto clienteDto)
+        public async Task<ActionResult<ClienteResponse>> Update(int id, [FromBody] ClienteRequest clienteRequest)
         {
             try
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState);
 
-                var result = await _clienteService.UpdateAsync(id, clienteDto);
+                var result = await _clienteService.UpdateAsync(id, clienteRequest);
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -96,8 +90,18 @@ namespace AgendaCerta.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _clienteService.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                var deleted = await _clienteService.DeleteAsync(id);
+                if (!deleted)
+                    return NotFound(new { message = "Cliente não encontrado." });
+                    
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Erro ao excluir o cliente: {ex.Message}" });
+            }
         }
     }
 }

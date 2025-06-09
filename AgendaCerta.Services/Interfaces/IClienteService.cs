@@ -5,12 +5,12 @@ namespace AgendaCerta.Services.Interfaces
 {
     public interface IClienteService
     {
-        Task<IEnumerable<Cliente>> GetAllAsync();
-        Task<Cliente?> GetByIdAsync(int id);
-        Task<Cliente?> GetByEmailAsync(string email);
-        Task<Cliente?> GetByCPFAsync(string cpf);
-        Task<Cliente> CreateAsync(CreateClienteDto clienteDto);
-        Task<Cliente> UpdateAsync(int id, CreateClienteDto clienteDto);
+        Task<IEnumerable<ClienteResponse>> GetAllAsync();
+        Task<ClienteResponse?> GetByIdAsync(int id);
+        Task<ClienteResponse?> GetByEmailAsync(string email);
+        Task<ClienteResponse?> GetByCPFAsync(string cpf);
+        Task<ClienteResponse> CreateAsync(ClienteRequest clienteRequest);
+        Task<ClienteResponse> UpdateAsync(int id, ClienteRequest clienteRequest);
         Task<bool> DeleteAsync(int id);
     }
 }

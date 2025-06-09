@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AgendaCerta.API", "AgendaCerta.API", "{F957F8BE-70E8-E656-329D-F26B4275DA60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaCerta", "AgendaCerta.API\AgendaCerta.csproj", "{B567CA85-64A5-457E-B662-D4E6E5410674}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaCerta", "AgendaCerta.API\AgendaCerta.API.csproj", "{B567CA85-64A5-457E-B662-D4E6E5410674}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AgendaCerta.Domain", "AgendaCerta.Domain\AgendaCerta.Domain.csproj", "{169B0E55-E272-45F3-96F7-714385E4865E}"
 EndProject

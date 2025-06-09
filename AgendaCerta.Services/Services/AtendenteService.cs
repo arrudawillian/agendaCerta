@@ -7,43 +7,35 @@ using AutoMapper;
 namespace AgendaCerta.Services
 
 {
-    public class AtendenteService : IAtendenteService
+    public class AtendenteService(IAtendenteRepository atendenteRepository, IMapper mapper) : IAtendenteService
     {
-        private readonly IAtendenteRepository _atendenteRepository;
-        private readonly IMapper _mapper;
+        private readonly IAtendenteRepository _atendenteRepository = atendenteRepository;
+        private readonly IMapper _mapper = mapper;
 
-        public AtendenteService(IAtendenteRepository atendenteRepository, IMapper mapper)
+        public async Task<IEnumerable<AtendenteResponse>> GetAllAsync()
         {
-            _atendenteRepository = atendenteRepository;
-            _mapper = mapper;
+            return _mapper.Map<IEnumerable<AtendenteResponse>>(await _atendenteRepository.GetAllAsync());
         }
 
-        public async Task<IEnumerable<Atendente>> GetAllAsync()
+        public async Task<AtendenteResponse?> GetByIdAsync(int id)
         {
-            return await _atendenteRepository.GetAllAsync();
+            var atendente = await _atendenteRepository.GetByIdAsync(id);
+            return _mapper.Map<AtendenteResponse?>(atendente);
         }
 
-        public async Task<Atendente?> GetByIdAsync(int id)
+        public async Task<AtendenteResponse?> GetByCPFAsync(string cpf)
         {
-            return await _atendenteRepository.GetByIdAsync(id);
+            var atendente = await _atendenteRepository.GetByCPFAsync(cpf);
+            return _mapper.Map<AtendenteResponse?>(atendente);
         }
 
-        public async Task<Atendente?> GetByEmailAsync(string email)
+        public async Task<IEnumerable<AtendenteResponse?>> GetByEspecialidadeAsync(string especialidade)
         {
-            return await _atendenteRepository.GetByEmailAsync(email);
+            var atendentes = await _atendenteRepository.GetByEspecialidadeAsync(especialidade);
+            return _mapper.Map<IEnumerable<AtendenteResponse>>(atendentes);
         }
 
-        public async Task<Atendente?> GetByCPFAsync(string cpf)
-        {
-            return await _atendenteRepository.GetByCPFAsync(cpf);
-        }
-
-        public async Task<IEnumerable<Atendente?>> GetByEspecialidadeAsync(string especialidade)
-        {
-            return await _atendenteRepository.GetByEspecialidadeAsync(especialidade);
-        }
-
-        public async Task<Atendente> CreateAsync(CreateAtendenteDto createAtendenteDto)
+        public async Task<AtendenteResponse> CreateAsync(AtendenteRequest createAtendenteDto)
         {
             // Valida CPF único
             if (!await IsCPFUniqueAsync(createAtendenteDto.CPF))
@@ -52,10 +44,11 @@ namespace AgendaCerta.Services
             }
 
             var atendente = _mapper.Map<Atendente>(createAtendenteDto);
-            return await _atendenteRepository.AddAsync(atendente);
+            var createdAtendente = await _atendenteRepository.AddAsync(atendente);
+            return _mapper.Map<AtendenteResponse>(createdAtendente);
         }
 
-        public async Task<Atendente> UpdateAsync(int id, CreateAtendenteDto createAtendenteDto)
+        public async Task<AtendenteResponse> UpdateAsync(int id, AtendenteRequest createAtendenteDto)
         {
             var atendente = await _atendenteRepository.GetByIdAsync(id);
             if (atendente == null)
@@ -72,7 +65,8 @@ namespace AgendaCerta.Services
             // Atualiza as propriedades do cliente
             _mapper.Map(createAtendenteDto, atendente);
 
-            return await _atendenteRepository.UpdateAsync(atendente);
+            var updatedAtendente = await _atendenteRepository.UpdateAsync(atendente);
+            return _mapper.Map<AtendenteResponse>(updatedAtendente);
         }
 
         public async Task<bool> DeleteAsync(int id)

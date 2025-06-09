@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AgendaCerta.Services.DTOs
 {
-    public class CreateAtendenteDto
+    public class AtendenteRequest
     {
         [Required(ErrorMessage = "O nome é obrigatório")]
         [StringLength(100, ErrorMessage = "O nome deve ter no máximo 100 caracteres")]

@@ -54,20 +54,31 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Agendamento>> Create([FromBody] CreateAgendamentoDto agendamentoDto)
+        public async Task<ActionResult<Agendamento>> Create([FromBody] AgendamentoRequest agendamentoRequest)
         {
-            var createdAgendamento = await _agendamentoService.CreateAsync(agendamentoDto);
-            return CreatedAtAction(nameof(GetById), new { id = createdAgendamento.Id }, createdAgendamento);
+            try
+            {
+                var createdAgendamento = await _agendamentoService.CreateAsync(agendamentoRequest);
+                return CreatedAtAction(nameof(GetById), new { id = createdAgendamento.Id }, createdAgendamento);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Agendamento agendamento)
+        public async Task<ActionResult<Agendamento>> Update(int id, [FromBody] AgendamentoUpdateRequest agendamentoUpdateRequest)
         {
-            if (id != agendamento.Id)
-                return BadRequest();
-
-            await _agendamentoService.UpdateAsync(agendamento);
-            return NoContent();
+            try
+            {
+                var updatedAgendamento = await _agendamentoService.UpdateAsync(id, agendamentoUpdateRequest);
+                return Ok(updatedAgendamento);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete("{id}")]

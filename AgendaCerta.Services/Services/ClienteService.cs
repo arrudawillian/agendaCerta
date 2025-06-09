@@ -6,67 +6,57 @@ using AutoMapper;
 
 namespace AgendaCerta.Services
 {
-    public class ClienteService : IClienteService
+    public class ClienteService(IClienteRepository clienteRepository, IMapper mapper) : IClienteService
     {
-        private readonly IClienteRepository _clienteRepository;
-        private readonly IMapper _mapper;
+        private readonly IClienteRepository _clienteRepository = clienteRepository;
+        private readonly IMapper _mapper = mapper;
 
-        public ClienteService(IClienteRepository clienteRepository, IMapper mapper)
+        public async Task<IEnumerable<ClienteResponse>> GetAllAsync()
         {
-            _clienteRepository = clienteRepository;
-            _mapper = mapper;
+            return _mapper.Map<IEnumerable<ClienteResponse>>(await _clienteRepository.GetAllAsync());
         }
 
-        public async Task<IEnumerable<Cliente>> GetAllAsync()
-        {
-            return await _clienteRepository.GetAllAsync();
-        }
-
-        public async Task<Cliente?> GetByIdAsync(int id)
-        {
-            return await _clienteRepository.GetByIdAsync(id);
-        }
-
-        public async Task<Cliente?> GetByEmailAsync(string email)
-        {
-            return await _clienteRepository.GetByEmailAsync(email);
-        }
-
-        public async Task<Cliente?> GetByCPFAsync(string cpf)
-        {
-            return await _clienteRepository.GetByCPFAsync(cpf);
-        }
-
-        public async Task<Cliente> CreateAsync(CreateClienteDto clienteDto)
-        {
-            // Valida CPF único
-            if (!await IsCPFUniqueAsync(clienteDto.CPF))
-            {
-                throw new InvalidOperationException("Já existe um cliente cadastrado com este CPF.");
-            }
-
-            var cliente = _mapper.Map<Cliente>(clienteDto);
-            return await _clienteRepository.AddAsync(cliente);
-        }
-
-        public async Task<Cliente> UpdateAsync(int id, CreateClienteDto clienteDto)
+        public async Task<ClienteResponse?> GetByIdAsync(int id)
         {
             var cliente = await _clienteRepository.GetByIdAsync(id);
-            if (cliente == null)
-            {
-                throw new InvalidOperationException("Cliente não encontrado.");
-            }
+            return _mapper.Map<ClienteResponse?>(cliente);
+        }
 
-            // Verifica se o CPF foi alterado e se já existe
-            if (clienteDto.CPF != cliente.CPF && !await IsCPFUniqueAsync(clienteDto.CPF))
+        public async Task<ClienteResponse?> GetByEmailAsync(string email)
+        {
+            var cliente = await _clienteRepository.GetByEmailAsync(email);
+            return _mapper.Map<ClienteResponse?>(cliente);
+        }
+
+        public async Task<ClienteResponse?> GetByCPFAsync(string cpf)
+        {
+            var cliente = await _clienteRepository.GetByCPFAsync(cpf);
+            return _mapper.Map<ClienteResponse?>(cliente);
+        }
+
+        public async Task<ClienteResponse> CreateAsync(ClienteRequest clienteRequest)
+        {
+            if (!await IsCPFUniqueAsync(clienteRequest.CPF))
             {
                 throw new InvalidOperationException("Já existe um cliente cadastrado com este CPF.");
             }
 
-            // Atualiza as propriedades do cliente
-            _mapper.Map(clienteDto, cliente);
+            var cliente = _mapper.Map<Cliente>(clienteRequest);
+            var createdCliente = await _clienteRepository.AddAsync(cliente);
+            return _mapper.Map<ClienteResponse>(createdCliente);
+        }
 
-            return await _clienteRepository.UpdateAsync(cliente);
+        public async Task<ClienteResponse> UpdateAsync(int id, ClienteRequest clienteRequest)
+        {
+            var cliente = await _clienteRepository.GetByIdAsync(id) ?? throw new InvalidOperationException("Cliente não encontrado.");
+            if (clienteRequest.CPF != cliente.CPF && !await IsCPFUniqueAsync(clienteRequest.CPF))
+            {
+                throw new InvalidOperationException("Já existe um cliente cadastrado com este CPF.");
+            }
+
+            _mapper.Map(clienteRequest, cliente);
+            var updatedCliente = await _clienteRepository.UpdateAsync(cliente);
+            return _mapper.Map<ClienteResponse>(updatedCliente);
         }
 
         public async Task<bool> DeleteAsync(int id)

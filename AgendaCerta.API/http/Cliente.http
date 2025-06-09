@@ -7,10 +7,10 @@ GET {{AgendaCerta_HostAddress}}/api/cliente
 GET {{AgendaCerta_HostAddress}}/api/cliente/4
 
 ### Buscar cliente por Cpf
-GET {{AgendaCerta_HostAddress}}/api/cliente/cpf/33322255546
+GET {{AgendaCerta_HostAddress}}/api/cliente/cpf/33333333333
 
 ### Buscar cliente por Email
-GET {{AgendaCerta_HostAddress}}/api/cliente/email/Renata@email.com
+GET {{AgendaCerta_HostAddress}}/api/cliente/email/amire@email.com
 
 ### Criar novo cliente
 POST {{AgendaCerta_HostAddress}}/api/cliente
@@ -38,4 +38,4 @@ Content-Type: application/json
 }
 
 ### Deletar cliente
-DELETE {{AgendaCerta_HostAddress}}/api/cliente/3
+DELETE {{AgendaCerta_HostAddress}}/api/cliente/10

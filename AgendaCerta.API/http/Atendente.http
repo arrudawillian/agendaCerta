@@ -6,6 +6,12 @@ GET {{AgendaCerta_HostAddress}}/api/atendente
 ### Buscar atendente por ID
 GET {{AgendaCerta_HostAddress}}/api/atendente/1
 
+### Buscar atendente por CPF
+GET {{AgendaCerta_HostAddress}}/api/atendente/cpf/34567890013
+
+### Buscar atendentes por especialidade
+GET {{AgendaCerta_HostAddress}}/api/atendente/especialidade/Cardio
+
 ### Criar novo atendente
 POST {{AgendaCerta_HostAddress}}/api/atendente
 Content-Type: application/json

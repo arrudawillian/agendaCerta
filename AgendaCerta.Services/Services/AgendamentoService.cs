@@ -6,16 +6,10 @@ using AutoMapper;
 
 namespace AgendaCerta.Services
 {
-    public class AgendamentoService : IAgendamentoService
+    public class AgendamentoService(IAgendamentoRepository agendamentoRepository, IMapper mapper) : IAgendamentoService
     {
-        private readonly IAgendamentoRepository _agendamentoRepository;
-        private readonly IMapper _mapper;
-
-        public AgendamentoService(IAgendamentoRepository agendamentoRepository, IMapper mapper)
-        {
-            _agendamentoRepository = agendamentoRepository;
-            _mapper = mapper;
-        }
+        private readonly IAgendamentoRepository _agendamentoRepository = agendamentoRepository;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<IEnumerable<Agendamento>> GetAllAsync()
         {
@@ -47,31 +41,32 @@ namespace AgendaCerta.Services
             return await _agendamentoRepository.GetByStatusAsync(status);
         }
 
-        public async Task<Agendamento> CreateAsync(CreateAgendamentoDto agendamentoDto)
+        public async Task<Agendamento> CreateAsync(AgendamentoRequest agendamentoRequest)
         {
-            if (!await IsHorarioDisponivelAsync(agendamentoDto.AtendenteId, agendamentoDto.DataHora))
+            if (!await IsHorarioDisponivelAsync(agendamentoRequest.AtendenteId, agendamentoRequest.DataHora))
                 throw new InvalidOperationException("Horário não disponível para este atendente");
 
-            var agendamento = _mapper.Map<Agendamento>(agendamentoDto);
+            var agendamento = _mapper.Map<Agendamento>(agendamentoRequest);
 
             return await _agendamentoRepository.AddAsync(agendamento);
         }
 
-        public async Task<Agendamento> UpdateAsync(Agendamento agendamento)
+        public async Task<Agendamento> UpdateAsync(int id, AgendamentoUpdateRequest agendamentoUpdateRequest)
         {
-            var existingAgendamento = await GetByIdAsync(agendamento.Id);
+            var existingAgendamento = await GetByIdAsync(id);
             if (existingAgendamento == null)
                 throw new InvalidOperationException("Agendamento não encontrado");
 
-            if (existingAgendamento.DataHora != agendamento.DataHora || 
-                existingAgendamento.AtendenteId != agendamento.AtendenteId)
+            if (existingAgendamento.DataHora != agendamentoUpdateRequest.DataHora || 
+                existingAgendamento.AtendenteId != agendamentoUpdateRequest.AtendenteId)
             {
-                if (!await IsHorarioDisponivelAsync(agendamento.AtendenteId, agendamento.DataHora))
+                if (!await IsHorarioDisponivelAsync(agendamentoUpdateRequest.AtendenteId, agendamentoUpdateRequest.DataHora))
                     throw new InvalidOperationException("Horário não disponível para este atendente");
             }
 
-            agendamento.DataAtualizacao = DateTime.Now;
-            return await _agendamentoRepository.UpdateAsync(agendamento);
+            _mapper.Map(agendamentoUpdateRequest, existingAgendamento);
+
+            return await _agendamentoRepository.UpdateAsync(existingAgendamento);
         }
 
         public async Task<bool> DeleteAsync(int id)

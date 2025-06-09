@@ -17,14 +17,14 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Atendente>>> GetAll()
+        public async Task<ActionResult<IEnumerable<AtendenteResponse>>> GetAll()
         {
             var atendentes = await _atendenteService.GetAllAsync();
             return Ok(atendentes);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Atendente>> GetById(int id)
+        public async Task<ActionResult<AtendenteResponse>> GetById(int id)
         {
             var atendente = await _atendenteService.GetByIdAsync(id);
             if (atendente == null)
@@ -32,8 +32,24 @@ namespace AgendaCerta.API.Controllers
             return Ok(atendente);
         }
 
+        [HttpGet("cpf/{cpf}")]
+        public async Task<ActionResult<ClienteResponse>> GetByCPF(string cpf)
+        {
+            var cliente = await _atendenteService.GetByCPFAsync(cpf);
+            if (cliente == null)
+                return NotFound();
+            return Ok(cliente);
+        }
+
+        [HttpGet("especialidade/{especialidade}")]
+        public async Task<ActionResult<IEnumerable<AtendenteResponse>>> GetByEspecialidade(string especialidade)
+        {
+            var atendentes = await _atendenteService.GetByEspecialidadeAsync(especialidade);
+            return Ok(atendentes);
+        }
+
         [HttpPost]
-        public async Task<ActionResult<Atendente>> Create([FromBody] CreateAtendenteDto createAtendenteDto)
+        public async Task<ActionResult<AtendenteResponse>> Create([FromBody] AtendenteRequest createAtendenteDto)
         {
             try
             {
@@ -53,7 +69,7 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CreateAtendenteDto createAtendenteDto)
+        public async Task<ActionResult<AtendenteResponse>> Update(int id, [FromBody] AtendenteRequest createAtendenteDto)
         {
             try
             {

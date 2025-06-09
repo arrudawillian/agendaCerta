@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AgendaCerta.Services.DTOs
 {
-    public class CreateAgendamentoDto
+    public class AgendamentoRequest
     {
         [Required]
         public int ClienteId { get; set; }

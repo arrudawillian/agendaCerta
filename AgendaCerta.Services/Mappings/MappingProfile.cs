@@ -28,6 +28,8 @@ namespace AgendaCerta.Services
             CreateMap<AgendamentoUpdateRequest, Agendamento>()
                 .ForMember(dest => dest.DataAtualizacao, opt => opt.MapFrom(src => DateTime.Now))
                 .ForMember(dest => dest.ClienteId, opt => opt.Ignore()); // Impede a alteração do cliente
+            
+            CreateMap<Agendamento, AgendamentoResponse>();
         }
     }
 }

@@ -17,14 +17,14 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Agendamento>>> GetAll()
+        public async Task<ActionResult<IEnumerable<AgendamentoResponse>>> GetAll()
         {
             var agendamentos = await _agendamentoService.GetAllAsync();
             return Ok(agendamentos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Agendamento>> GetById(int id)
+        public async Task<ActionResult<AgendamentoResponse>> GetById(int id)
         {
             var agendamento = await _agendamentoService.GetByIdAsync(id);
             if (agendamento == null)
@@ -33,21 +33,21 @@ namespace AgendaCerta.API.Controllers
         }
 
         [HttpGet("cliente/{clienteId}")]
-        public async Task<ActionResult<IEnumerable<Agendamento>>> GetByClienteId(int clienteId)
+        public async Task<ActionResult<IEnumerable<AgendamentoResponse>>> GetByClienteId(int clienteId)
         {
             var agendamentos = await _agendamentoService.GetByClienteIdAsync(clienteId);
             return Ok(agendamentos);
         }
 
         [HttpGet("atendente/{atendenteId}")]
-        public async Task<ActionResult<IEnumerable<Agendamento>>> GetByAtendenteId(int atendenteId)
+        public async Task<ActionResult<IEnumerable<AgendamentoResponse>>> GetByAtendenteId(int atendenteId)
         {
             var agendamentos = await _agendamentoService.GetByAtendenteIdAsync(atendenteId);
             return Ok(agendamentos);
         }
 
         [HttpGet("data/{data}")]
-        public async Task<ActionResult<IEnumerable<Agendamento>>> GetByData(DateTime data)
+        public async Task<ActionResult<IEnumerable<AgendamentoResponse>>> GetByData(DateTime data)
         {
             var agendamentos = await _agendamentoService.GetByDataAsync(data);
             return Ok(agendamentos);

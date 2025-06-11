@@ -5,14 +5,14 @@ namespace AgendaCerta.Services.Interfaces
 {
     public interface IAgendamentoService
     {
-        Task<IEnumerable<Agendamento>> GetAllAsync();
-        Task<Agendamento?> GetByIdAsync(int id);
-        Task<IEnumerable<Agendamento>> GetByClienteIdAsync(int clienteId);
-        Task<IEnumerable<Agendamento>> GetByAtendenteIdAsync(int atendenteId);
-        Task<IEnumerable<Agendamento>> GetByDataAsync(DateTime data);
-        Task<IEnumerable<Agendamento>> GetByStatusAsync(string status);
-        Task<Agendamento> CreateAsync(AgendamentoRequest agendamentoRequest);
-        Task<Agendamento> UpdateAsync(int id, AgendamentoUpdateRequest agendamentoUpdateRequest);
+        Task<IEnumerable<AgendamentoResponse>> GetAllAsync();
+        Task<AgendamentoResponse?> GetByIdAsync(int id);
+        Task<IEnumerable<AgendamentoResponse>> GetByClienteIdAsync(int clienteId);
+        Task<IEnumerable<AgendamentoResponse>> GetByAtendenteIdAsync(int atendenteId);
+        Task<IEnumerable<AgendamentoResponse>> GetByDataAsync(DateTime data);
+        Task<IEnumerable<AgendamentoResponse>> GetByStatusAsync(string status);
+        Task<AgendamentoResponse> CreateAsync(AgendamentoRequest agendamentoRequest);
+        Task<AgendamentoResponse> UpdateAsync(int id, AgendamentoUpdateRequest agendamentoUpdateRequest);
         Task<bool> DeleteAsync(int id);
     }
 }

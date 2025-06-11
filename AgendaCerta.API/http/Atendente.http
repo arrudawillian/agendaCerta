@@ -4,7 +4,7 @@
 GET {{AgendaCerta_HostAddress}}/api/atendente
 
 ### Buscar atendente por ID
-GET {{AgendaCerta_HostAddress}}/api/atendente/1
+GET {{AgendaCerta_HostAddress}}/api/atendente/4
 
 ### Buscar atendente por CPF
 GET {{AgendaCerta_HostAddress}}/api/atendente/cpf/34567890013
@@ -17,12 +17,12 @@ POST {{AgendaCerta_HostAddress}}/api/atendente
 Content-Type: application/json
 
 {
-    "nome": "Denis Cornedo",
-    "email": "deco@email.com",
+    "nome": "Daniela Pereira",
+    "email": "dani@email.com",
     "telefone": "11999999999",
-    "cpf": "34567890013",
-    "especialidade": "Pediatria",
-    "DataNascimento": "1979-01-12"
+    "cpf": "51625487956",
+    "especialidade": "Veterinária",
+    "DataNascimento": "1985-01-12"
 }
 
 ### Atualizar atendente

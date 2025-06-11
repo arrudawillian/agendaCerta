@@ -11,49 +11,55 @@ namespace AgendaCerta.Services
         private readonly IAgendamentoRepository _agendamentoRepository = agendamentoRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<IEnumerable<Agendamento>> GetAllAsync()
+        public async Task<IEnumerable<AgendamentoResponse>> GetAllAsync()
         {
-            return await _agendamentoRepository.GetAllAsync();
+            var agendamentos = await _agendamentoRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<AgendamentoResponse>>(agendamentos);
         }
 
-        public async Task<Agendamento?> GetByIdAsync(int id)
+        public async Task<AgendamentoResponse?> GetByIdAsync(int id)
         {
-            return await _agendamentoRepository.GetByIdAsync(id);
+            var agendamento = await _agendamentoRepository.GetByIdAsync(id);
+            return _mapper.Map<AgendamentoResponse>(agendamento);
         }
 
-        public async Task<IEnumerable<Agendamento>> GetByClienteIdAsync(int clienteId)
+        public async Task<IEnumerable<AgendamentoResponse>> GetByClienteIdAsync(int clienteId)
         {
-            return await _agendamentoRepository.GetByClienteIdAsync(clienteId);
+            var agendamentos = await _agendamentoRepository.GetByClienteIdAsync(clienteId);
+            return _mapper.Map<IEnumerable<AgendamentoResponse>>(agendamentos);
         }
 
-        public async Task<IEnumerable<Agendamento>> GetByAtendenteIdAsync(int atendenteId)
+        public async Task<IEnumerable<AgendamentoResponse>> GetByAtendenteIdAsync(int atendenteId)
         {
-            return await _agendamentoRepository.GetByAtendenteIdAsync(atendenteId);
+            var agendamentos = await _agendamentoRepository.GetByAtendenteIdAsync(atendenteId);
+            return _mapper.Map<IEnumerable<AgendamentoResponse>>(agendamentos);
         }
 
-        public async Task<IEnumerable<Agendamento>> GetByDataAsync(DateTime data)
+        public async Task<IEnumerable<AgendamentoResponse>> GetByDataAsync(DateTime data)
         {
-            return await _agendamentoRepository.GetByDataAsync(data);
+            var agendamentos = await _agendamentoRepository.GetByDataAsync(data);
+            return _mapper.Map<IEnumerable<AgendamentoResponse>>(agendamentos);
         }
 
-        public async Task<IEnumerable<Agendamento>> GetByStatusAsync(string status)
+        public async Task<IEnumerable<AgendamentoResponse>> GetByStatusAsync(string status)
         {
-            return await _agendamentoRepository.GetByStatusAsync(status);
+            var agendamentos = await _agendamentoRepository.GetByStatusAsync(status);
+            return _mapper.Map<IEnumerable<AgendamentoResponse>>(agendamentos);
         }
 
-        public async Task<Agendamento> CreateAsync(AgendamentoRequest agendamentoRequest)
+        public async Task<AgendamentoResponse> CreateAsync(AgendamentoRequest agendamentoRequest)
         {
             if (!await IsHorarioDisponivelAsync(agendamentoRequest.AtendenteId, agendamentoRequest.DataHora))
                 throw new InvalidOperationException("Horário não disponível para este atendente");
 
             var agendamento = _mapper.Map<Agendamento>(agendamentoRequest);
-
-            return await _agendamentoRepository.AddAsync(agendamento);
+            var createdAgendamento = await _agendamentoRepository.AddAsync(agendamento);
+            return _mapper.Map<AgendamentoResponse>(createdAgendamento);
         }
 
-        public async Task<Agendamento> UpdateAsync(int id, AgendamentoUpdateRequest agendamentoUpdateRequest)
+        public async Task<AgendamentoResponse> UpdateAsync(int id, AgendamentoUpdateRequest agendamentoUpdateRequest)
         {
-            var existingAgendamento = await GetByIdAsync(id);
+            var existingAgendamento = await _agendamentoRepository.GetByIdAsync(id);
             if (existingAgendamento == null)
                 throw new InvalidOperationException("Agendamento não encontrado");
 
@@ -65,13 +71,13 @@ namespace AgendaCerta.Services
             }
 
             _mapper.Map(agendamentoUpdateRequest, existingAgendamento);
-
-            return await _agendamentoRepository.UpdateAsync(existingAgendamento);
+            var updatedAgendamento = await _agendamentoRepository.UpdateAsync(existingAgendamento);
+            return _mapper.Map<AgendamentoResponse>(updatedAgendamento);
         }
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var agendamento = await GetByIdAsync(id);
+            var agendamento = await _agendamentoRepository.GetByIdAsync(id);
             if (agendamento == null)
                 return false;
 
@@ -90,7 +96,7 @@ namespace AgendaCerta.Services
 
         private async Task<bool> CanCancelAsync(int id)
         {
-            var agendamento = await GetByIdAsync(id);
+            var agendamento = await _agendamentoRepository.GetByIdAsync(id);
             if (agendamento == null)
                 return false;
 

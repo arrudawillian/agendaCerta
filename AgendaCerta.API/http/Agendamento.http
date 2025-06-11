@@ -4,10 +4,10 @@
 GET {{AgendaCerta_HostAddress}}/api/agendamento
 
 ### Buscar agendamento por ID
-GET {{AgendaCerta_HostAddress}}/api/agendamento/3
+GET {{AgendaCerta_HostAddress}}/api/agendamento/2
 
 ### Buscar agendamentos por cliente
-GET {{AgendaCerta_HostAddress}}/api/agendamento/cliente/4
+GET {{AgendaCerta_HostAddress}}/api/agendamento/cliente/7
 
 ### Buscar agendamentos por atendente
 GET {{AgendaCerta_HostAddress}}/api/agendamento/atendente/4
@@ -17,20 +17,20 @@ POST {{AgendaCerta_HostAddress}}/api/agendamento
 Content-Type: application/json
 
 {
-    "clienteId": 6,
-    "atendenteId": 4,
-    "dataHora": "2025-06-21T09:00:00",
+    "clienteId": 7,
+    "atendenteId": 7,
+    "dataHora": "2025-06-13T11:00:00",
     "status": "Agendado",
-    "observacao": "Primeira consulta"
+    "observacao": "Primeira consulta da Amicia"
 }
 
 ### Atualizar agendamento
-PUT {{AgendaCerta_HostAddress}}/api/agendamento/4
+PUT {{AgendaCerta_HostAddress}}/api/agendamento/5
 Content-Type: application/json
 
 {
-    "atendenteId": 4,
-    "dataHora": "2024-03-20T15:00:00",
+    "atendenteId": 7,
+    "dataHora": "2025-06-14T11:00:00",
     "status": "Reagendado",
     "observacao": "Horário alterado a pedido do cliente"
 }
@@ -47,4 +47,4 @@ Content-Type: application/json
 DELETE {{AgendaCerta_HostAddress}}/api/agendamento/1
 
 ### Buscar agendamentos por data
-GET {{AgendaCerta_HostAddress}}/api/agendamento/data/2025-06-21
+GET {{AgendaCerta_HostAddress}}/api/agendamento/data/2025-06-14
